@@ -11,6 +11,13 @@ var flash    = require('connect-flash');
 
 var configDB = require('./config/database.js');
 
+mongoose.connect(configDB.url, function(err) {
+	if(err) {
+		console.log('Error '+err);
+	}else {
+		console.log("Mongo Server started!");
+	}
+});
 
 require('./config/passport')(passport); // pass passport for configuration
 
