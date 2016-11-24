@@ -2,7 +2,12 @@
 module.exports = function(app, passport) {
 
 	app.get('/', function(req, res) {
-		res.render('index.ejs'); // load the index.ejs file
+
+		if(!req.isAuthenticated()) {
+			res.render('index.ejs'); 
+		}else {
+			res.redirect('/profile')
+		}
 	});
 
 	app.get('/login', function(req, res) {
@@ -38,6 +43,7 @@ module.exports = function(app, passport) {
 	});
 
 	app.get('/auth/facebook', passport.authenticate('facebook', { scope : 'email' }));
+	app.get('/auth/google', passport.authenticate('google', { scope : ['profile', 'email'] }));
 
 	// handle the callback after facebook has authenticated the user
 	app.get('/auth/facebook/callback',
@@ -50,7 +56,13 @@ module.exports = function(app, passport) {
 		req.logout();
 		res.redirect('/');
 	});
-};
+
+	app.get('/auth/google/callback',
+            passport.authenticate('google', {
+                    successRedirect : '/profile',
+                    failureRedirect : '/'
+            }));
+	};
 
 // route middleware to make sure
 function isLoggedIn(req, res, next) {
