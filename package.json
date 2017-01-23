@@ -1,5 +1,5 @@
 {
-  "name": "node-authentication",
+  "name": "node-authenticatio",
   "main": "server.js",
   "dependencies": {
     "bcrypt-nodejs": "latest",
